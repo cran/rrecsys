@@ -14,7 +14,7 @@ FunkSVD <- function(data, k = 10, gamma = 0.015, lambda = 0.001) {
     
     row_x <- nrow(x)
     col_x <- ncol(x)
-    if (ncol(x) < k | nrow(x) < k) 
+    if (col_x  < k | row_x < k) 
         stop("Invalid number of features! \nLess features than the actual number of items or users! Please correct k!")
     # determine the means over row and columns and the total mean
     #biases <- calcBias(x)
@@ -30,6 +30,7 @@ FunkSVD <- function(data, k = 10, gamma = 0.015, lambda = 0.001) {
     
     # the training feature loop
     for (f in 1:k) {
+        #restart counter and error for new feature
         resetrrecsysenv()
         p <- matrix(100, nrow = row_x, ncol = col_x)
         # convergence check
@@ -79,6 +80,7 @@ rrecsysRegistry$set_entry(alg = "FunkSVD",
                           description = "Funk SVD", 
                           reference =  "Y. Koren, R. Bell, and C. Volinsky. Matrix Factorization Techniques for Recommender Systems. \nS. Funk. Netflix Update: Try this at Home.",
                           parameters = p_FunkSVD) 
+
 
 #           INTERACTIVE IMPLEMANTATION OF THE UPDATES ON THE FEATURES
 #             for (i in 1:nrow(x)){

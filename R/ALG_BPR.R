@@ -16,7 +16,7 @@ BPR <- function(data, k = 10, lambda = 0.05, regU = 0.0025, regI = 0.0025, regJ 
     colnames(x) <- NULL
     rownames(x) <- NULL
     
-    if (ncol(x) < k | nrow(x) < k) 
+    if (col_x < k | row_x < k) 
         stop("Invalid number of features! \nLess features than the actual number of items or users! Please correct k!")
     
     # initilize the user and item features

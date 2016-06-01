@@ -25,7 +25,8 @@ export("rrecsysRegistry",
 		"defineData",
 		"setStoppingCriteria",
 		"showStoppingCriteria",
-		"showDeltaError"
+		"showDeltaError",
+		"nDCG"
 		)
 		
 exportClasses(

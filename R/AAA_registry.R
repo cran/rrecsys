@@ -11,8 +11,6 @@ rrecsysRegistry$set_field("reference", type = "character")
 
 rrecsysRegistry$set_field("parameters", type = "list")
 
-
-
 print.rrecsys_registry <- function(x, ...) with(x, {
     writeLines(sprintf("Regirsty defined for rrecsys with %i entries as follows:\n", length(x)))
     a <- x$get_field_entries("alg")
@@ -28,10 +26,7 @@ print.rrecsys_registry <- function(x, ...) with(x, {
         }
         writeLines("")
     }
-    
 })
-
-
 
 print.rrecsys_entries <- function(x, ...) with(x, {
     writeLines(sprintf("Algorithm: %s", description))

@@ -22,8 +22,6 @@ recommend <- function(model, topN = 3) {
         }
         names(recnames) <- rownames(x)
         
-        
-        
         return(new("recResultsClass", indices = rec_indices, recommended = recnames))
     }
     
@@ -46,8 +44,3 @@ recommend <- function(model, topN = 3) {
     new("recResultsClass", indices = rec_indices, recommended = recnames)
     
 } 
-
-
-#rated_items <- lapply(1:nrow(x), function(i) which(x[i, ] != 0))
-
-#rec_indices <- lapply(rated_items, function(m) (model@indices[!model@indices %in% m])[1:topN])

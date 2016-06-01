@@ -17,7 +17,7 @@ setMethod("evalRec", signature = c(model = "evalModel"), function(model, alg = N
         stop("Evaluation on recommendations can not proceed if argument goodRating and is not specified.")
     }
     
-    cat("Evaluating top-", topN, " recommendation on ", rrecsysRegistry$get_entry(alg = alg)$alg, ".\n")
+    cat("Evaluating top-", topN, " recommendation with ", rrecsysRegistry$get_entry(alg = alg)$alg, ".\n")
     
     
     nusers <- nrow(model@data)
@@ -26,18 +26,16 @@ setMethod("evalRec", signature = c(model = "evalModel"), function(model, alg = N
     nDCG <- rep(0, model@folds)
     rankscore <- rep(0, model@folds)
     
-    # iterations on ofolder
+    # iterations on folds
     for (i in 1:model@folds) {
         
         ptm <- Sys.time()
-        # geta a copy of the rating matrix
+        # get a copy of the rating matrix
         copy_data <- model@data
         # generate the training set
         copy_data@data[model@fold_indices[[i]]] <- 0
         copy_data@data <- matrix(copy_data@data, nusers)
-        # train the train set
-        
-        
+
         r <- rrecsys(copy_data, alg = alg, ...)
         # get the recommended indices
         rec <- recommend(r, topN)@indices
@@ -63,10 +61,10 @@ setMethod("evalRec", signature = c(model = "evalModel"), function(model, alg = N
             }
             
             nDCG[i] <- nDCG[i] + 
-              getnDCG(model@data@data[m, ], rec[[m]], model@fold_indices_x_user[[i]][[m]], goodRating)
+              nDCG(rec[[m]], model@fold_indices_x_user[[i]][[m]])
             
             rankscore[i] <- rankscore[i] + 
-              getrankscore(model@data@data[m, ], rec[[m]], model@fold_indices_x_user[[i]][[m]], goodRating, alpha)
+              rankScore(rec[[m]], model@fold_indices_x_user[[i]][[m]], alpha)
         }
         
         res_on_fold <- lapply(res_on_fold, function(x) x/nusers)

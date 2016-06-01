@@ -12,8 +12,8 @@ IB_kNN <- function(data, neigh = 10) {
     
     ptm <- Sys.time()
     
-    if (neigh > ncol(x) - 1) 
-        stop("Invalid value for k!!! Please change the k attribute.\nNeighborhood value is larger than the entire number of items in the dataset.")
+    if (neigh > ncol(x)) 
+        stop("Invalid value for neigh!!! Please change the neigh attribute.\nNeighborhood value is larger than the maximal value acceptable.")
     
     if (neigh < 1) 
         stop("Invalid value for neigh!!!")
@@ -24,10 +24,14 @@ IB_kNN <- function(data, neigh = 10) {
 
     temp <- rowRatings(data)
     
-    means <-  rowSums(x)/temp    #rowMeans(x) #apply(x, 1 ,function(m) sum(m)/maxNumRatings) #
+    means <-  rowSums(x)/temp   
     for(i in 1:nrow(x)) n_x[i, rated_index[[i]]] <- n_x[i,rated_index[[i]]] - means[i] 
     sim <- simil(n_x, method = 'cosine',diag = TRUE, by_rows = FALSE) 
-    sim <- as.matrix(sim) 
+    sim <- as.matrix(sim)
+    
+    #to avoid issues with ordering since simil method returns a similarity of 0 on the diagonal.
+    diag(sim) <- -2
+    
     colnames(sim) <- NULL 
     rownames(sim)<- NULL
     sim_index_kNN <- t(apply(sim, 1, function(q) 

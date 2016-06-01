@@ -4,7 +4,7 @@ setMethod("evalPred", signature = c(model = "evalModel"), function(model, alg = 
         stop("Evaluation on recommendations cannot proceed if argument alg and is not specified.")
     }
     
-    nusers <- nrow(model@data@data)
+    nusers <- nrow(model@data)
     
     #user based RMSE & MAE
     uRMSE <- c()
@@ -32,23 +32,26 @@ setMethod("evalPred", signature = c(model = "evalModel"), function(model, alg = 
         users_mae <- 0
 
         for (n in 1:nrow(model@data)) {
-          temp <- abs(model@data@data[n, model@fold_indices_x_user[[i]][[n]]] - predictions[n, model@fold_indices_x_user[[i]][[n]]])
+          #error on rating
+          e <- model@data@data[n, model@fold_indices_x_user[[i]][[n]]] 
+                 - predictions[n, model@fold_indices_x_user[[i]][[n]]]
 
-          if(length(temp) == 0) next
+          if(length(e) == 0) next
           
-          users_rmse <- users_rmse + sqrt(sum((temp)^2)/length(model@fold_indices_x_user[[i]][[n]]))
-          users_mae <- users_mae + sum((temp))/length(model@fold_indices_x_user[[i]][[n]])
+          users_rmse <- users_rmse + sqrt(mean(e^2))
+          users_mae <- users_mae + mean(abs(e))
         }
-        # derivate an average MAE and RMSE on the whole rating matrix
-        uRMSE <- c(uRMSE, users_rmse/nrow(model@data))
-        uMAE <- c(uMAE, users_mae/nrow(model@data))
+        # derivate an average MAE and RMSE for the users
+        uRMSE <- c(uRMSE, users_rmse/nusers)
+        uMAE <- c(uMAE, users_mae/nusers)
         
         # calculation on global MAE and RMSE
-        temp <- model@data@data[model@fold_indices[[i]]] - predictions[model@fold_indices[[i]]]
+        e <- model@data@data[model@fold_indices[[i]]] 
+               - predictions[model@fold_indices[[i]]]
+
+        mae_i <- mean(e)
         
-        mae_i <- sum(abs(temp)) / length(model@fold_indices[[i]])
-        
-        rmse_i <- sqrt(sum(temp^2) / length(model@fold_indices[[i]]))
+        rmse_i <- sqrt(mean(e^2))
         
         gMAE <- c(gMAE, mae_i)
         gRMSE <- c(gRMSE, rmse_i)
@@ -59,10 +62,10 @@ setMethod("evalPred", signature = c(model = "evalModel"), function(model, alg = 
     }
     
     # average on folds
-    uRMSE <- c(uRMSE, sum(uRMSE)/model@folds)
-    uMAE <- c(uMAE, sum(uMAE)/model@folds)
-    gRMSE <- c(gRMSE, sum(gRMSE)/model@folds)
-    gMAE <- c(gMAE, sum(gMAE)/model@folds)
+    uRMSE <- c(uRMSE, mean(uRMSE))
+    uMAE <- c(uMAE, mean(uMAE))
+    gRMSE <- c(gRMSE, mean(gRMSE))
+    gMAE <- c(gMAE, mean(gMAE))
     
     
     names(uRMSE) <- c(paste0(1:model@folds, rep("-fold", model@folds)), "Average")

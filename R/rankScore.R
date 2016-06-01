@@ -1,9 +1,9 @@
 #rankscore on a given user.
 
-getrankscore <- function(data, rec_items, fold_items_x_user, goodRating, alpha){
+rankScore <- function(recommendedIDX, testSetIDX, alpha){
   
   #extract index of the hits
-  match_TS <- which(rec_items %in% fold_items_x_user)
+  match_TS <- which(recommendedIDX %in% testSetIDX)
   
   if(length(match_TS) == 0 ) return(0)
   

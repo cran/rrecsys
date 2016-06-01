@@ -13,7 +13,6 @@ globalAverage <- function(data) {
 
 #Algorithm that generates predictions based on the items average only.
 itemAverage <- function(data) {
-    
   
     average <- colSums(data@data) / colRatings(data)
 
@@ -41,7 +40,6 @@ userAverage <- function(data) {
     }
     
     average <- matrix(rep(average, ncol(data)), nrow = nrow(data), byrow = F)
-    
     
     new("algAverageClass", alg = "userAverage", data = data, average = average)
     

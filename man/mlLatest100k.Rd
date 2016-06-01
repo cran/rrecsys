@@ -2,7 +2,7 @@
 \alias{mlLatest100k}
 \docType{data}
 \title{
-Movielense Latest
+Movielens Latest
 }
 \description{
 

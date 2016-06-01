@@ -112,6 +112,7 @@ roundData <- function(data, Round){
     }else{
       data@data <- round(data@data)
     }
+    
     data@data[data@data < data@minimum] <- 0
     data@data[data@data > data@maximum] <- data@maximum
   }
