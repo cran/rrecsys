@@ -33,8 +33,8 @@ setMethod("evalPred", signature = c(model = "evalModel"), function(model, alg = 
 
         for (n in 1:nrow(model@data)) {
           #error on rating
-          e <- model@data@data[n, model@fold_indices_x_user[[i]][[n]]] 
-                 - predictions[n, model@fold_indices_x_user[[i]][[n]]]
+          e <- model@data@data[n, model@fold_indices_x_user[[i]][[n]]] -
+               predictions[n, model@fold_indices_x_user[[i]][[n]]]
 
           if(length(e) == 0) next
           
@@ -46,8 +46,8 @@ setMethod("evalPred", signature = c(model = "evalModel"), function(model, alg = 
         uMAE <- c(uMAE, users_mae/nusers)
         
         # calculation on global MAE and RMSE
-        e <- model@data@data[model@fold_indices[[i]]] 
-               - predictions[model@fold_indices[[i]]]
+        e <- model@data@data[model@fold_indices[[i]]] -
+             predictions[model@fold_indices[[i]]]
 
         mae_i <- mean(e)
         

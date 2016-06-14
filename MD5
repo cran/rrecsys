@@ -1,5 +1,5 @@
-999348bdb61cdfd729c1fdac59519728 *DESCRIPTION
-bcb91c1b8f6ed806982bd2236d2f50bd *NAMESPACE
+6111e806427ca000abb1c28d605ab64a *DESCRIPTION
+dc042658ed7a4619c76ae7d04eec71d0 *NAMESPACE
 53cd963d8ca048e7fbbe631f696f6e78 *R/AAA_classes.R
 20ef90454a5b42146a4929f5f4404acf *R/AAA_generics.R
 78d3dd7034f5a7d6369e86c977f45ac2 *R/AAA_registry.R
@@ -15,7 +15,7 @@ a07aacde55606d30b134ce97a52718b2 *R/calcBias.R
 f4509922dc91f818f5f5132eefab5c87 *R/convergence.R
 75713510c6e9d95add503332b723de5d *R/defineData.R
 b2584e36ec3b6ae146f948a580118b99 *R/evalModel.R
-5851d46a09c65c9fc0e636488dc994b9 *R/evalPred.R
+fe0033b980fae79e49c56f4e487a16c6 *R/evalPred.R
 ed97a74be3398f4b4643402fba45941d *R/evalRec.R
 50d2a8e411547b3f9a9457ad055a7ce7 *R/getAUC.R
 b305e80ac551b302d6c526c9e95d0228 *R/getPrecRecall.R
@@ -38,7 +38,7 @@ ab799b07e17fb87485ee2bb01fc15e5d *man/defineData.Rd
 fc3f475c079fe3be74781ff387b67580 *man/evalModel.Rd
 5835415172a261990e74bef8ee9caba0 *man/evalPred.Rd
 c5945eef79ab78f6edf7716b097c89f2 *man/evalrec.Rd
-bc7249c22812d1b0643e5b66b305a97b *man/getAUC.Rd
+b0724f7a4e88bbba149075daa7eaa890 *man/getAUC.Rd
 a1b1b1b107a87a6d1fb81c6a7b21ca1e *man/mlLatest100k.Rd
 4e7c264cb90a0fb0ae297ceb1c64c2bf *man/nDCG.Rd
 f0ea9688b803ea112b1c2c228c2525eb *man/predict.Rd

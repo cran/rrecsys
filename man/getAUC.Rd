@@ -3,10 +3,10 @@
 \alias{getAUC,evalModel-method}
 \alias{getAUC,evalModel}
 \title{
-Evaluates the requested recommendation algorithm.
+Returns the Area under the ROC curve.
 }
 \description{
-Evaluates the recommendation task of an algorithm with its given configuration and based on the given evaluation model.  
+Computes the Area Under the ROC curve for a recommendation task of an algorithm with its given configuration and based on the given evaluation model.  
 }
 \usage{
 getAUC(model, ...)
