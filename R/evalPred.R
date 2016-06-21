@@ -49,14 +49,14 @@ setMethod("evalPred", signature = c(model = "evalModel"), function(model, alg = 
         e <- model@data@data[model@fold_indices[[i]]] -
              predictions[model@fold_indices[[i]]]
 
-        mae_i <- mean(e)
+        mae_i <- mean(abs(e))
         
         rmse_i <- sqrt(mean(e^2))
         
         gMAE <- c(gMAE, mae_i)
         gRMSE <- c(gRMSE, rmse_i)
         
-        
+  
         cat("\nFold:", i, "/", model@folds, " elapsed. Time:", as.numeric(Sys.time() - ptm, units = "secs"), "\n\n")
 
     }
@@ -67,7 +67,7 @@ setMethod("evalPred", signature = c(model = "evalModel"), function(model, alg = 
     gRMSE <- c(gRMSE, mean(gRMSE))
     gMAE <- c(gMAE, mean(gMAE))
     
-    
+
     names(uRMSE) <- c(paste0(1:model@folds, rep("-fold", model@folds)), "Average")
     names(uMAE) <- c(paste0(1:model@folds, rep("-fold", model@folds)), "Average")
     names(gRMSE) <- c(paste0(1:model@folds, rep("-fold", model@folds)), "Average")
