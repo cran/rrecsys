@@ -25,7 +25,7 @@ getAUC(model, ...)
 }
 }
 
-\value{Returns a data frame with the \code{AUC} for each of the k-folds definded in the evaluation model and the overall average.}
+\value{Returns a data frame with the \code{AUC} for each of the k-folds defined in the evaluation model and the overall average.}
 \references{
 T. Fawcett, \emph{“ROC Graphs: Notes and Practical Considerations for Data Mining Researchers ROC Graphs : Notes and Practical Considerations for Data Mining Researchers,”}, HP Inven., p. 27, 2003.
 }
@@ -34,7 +34,7 @@ T. Fawcett, \emph{“ROC Graphs: Notes and Practical Considerations for Data Min
   \code{\link{evalModel-class}}, \code{\link{rrecsys}}.
 }
 \examples{
-  x <- matrix(sample(c(0:5), size = 200, replace = TRUE, 
+  x <- matrix(sample(c(NA, 1:5), size = 200, replace = TRUE, 
         prob = c(.6,.8,.8,.8,.8,.8)), nrow = 20, byrow = TRUE)
   
   x <- defineData(x)

@@ -203,33 +203,43 @@ hr {
 <body>
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{4. Item-based k-nearest neighbors}
+%\VignetteIndexEntry{Item-based k-nearest neighbors}
 -->
 
 <h2>Item-based k-nearest neighbors in rrecsys</h2>
 
-<p>Given a target user and her positively rated items, the algorithm will identify the k-most similar items for each target <em>a</em> and will rank them according to aggregated similarities with the different targets as described by Sarwar et al. For similarity computation among two co-rated items the &ldquo;adjusted cosine&rdquo; is applied. This implementation is based on the implementation in recommenderlab by Michael Hahsler.</p>
+<p>Given a target user and her positively (i.e., above a pre-defined threshold) rated items, the algorithm relies on the items&#39; similarities for the formation of a neighborhood of nearest items.</p>
 
-<p>To train a model with this algorithm is required to define an additional argument, <em>neigh</em> the neighborhood size.</p>
+<p>The choice of the k nearest neighbors for the neighborhood formation results in a tradeoff:
+a very small k leads to few candidate items that can be recommended because there are not a lot of neighbors to support the predictions. In contrast, a very large k impacts precision as the particularities of user&#39;s preferences can be blunted due to the large neighborhood size. In most related works k has been set to be in the range of values from 10 to 100, where the optimum k also depends on data characteristics such as sparsity. </p>
 
-<pre><code class="r">ibknn &lt;- rrecsys(smallML, &quot;ibknn&quot;, neigh = 20)
+<p>The similarity is measured based on two algorithms: cosine(simFunct =&#39;cos&#39;) and adjusted cosine(simFunct = &#39;adjCos&#39;).</p>
+
+<p>For the Rating Prediction task, to train a model with this algorithm, it is required to define an additional argument, <em>neigh</em> the neighborhood size.</p>
+
+<pre><code class="r">data(&quot;ml100k&quot;)
+d &lt;- defineData(ml100k)
+e &lt;- evalModel(d, folds = 2)
+ib_model_res &lt;- evalPred(e, &quot;ibknn&quot;, simFunct = &quot;cos&quot;, neigh = 10)
+ib_model_res
 </code></pre>
 
-<pre><code>## Neighborhood calculated in:  0.6234109 seconds.
+<p>For the Item Recommendation task, to provide item recommendations, it is required to define two additional arguments, <em>positiveThreshold</em>  the threshold for &ldquo;positive&rdquo; ratings, and the <em>topN</em> the number of recommended items.</p>
+
+<pre><code class="r">data(&quot;ml100k&quot;)
+d &lt;- defineData(ml100k)
+e &lt;- evalModel(d, folds = 2)
+ib_model_res &lt;- evalRec(e, &quot;ibknn&quot;, simFunct = &quot;cos&quot;, neigh = 10, positiveThreshold = 3, topN = 3)
+ib_model_res
 </code></pre>
 
-<pre><code class="r">ibknn
-</code></pre>
-
-<pre><code>## The model was trained on the dataset using  IBKNN algorithm. 
-## The algorithm was configured with the following neighborhood width: 20
-</code></pre>
-
-<p>The <em>neigh</em> default value is 10.</p>
+<p>The <em>neigh</em> default value is 10.
+The <em>positiveThreshold</em> default value is 3.
+The <em>topN</em> default value is 3.</p>
 
 <p>The returned object is of type <em>IBclass</em>. </p>
 
-<p>To get more details about the slots read the reference <a href="https://cran.r-project.org/web/packages/rrecsys/rrecsys.pdf">manual</a>.</p>
+<p>To get more details about the slots read the reference <a href="https://CRAN.R-project.org/package=rrecsys">manual</a>.</p>
 
 </body>
 

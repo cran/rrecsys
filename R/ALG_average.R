@@ -3,18 +3,25 @@
 
 globalAverage <- function(data) {
     
-    average <- sum(data@data) / numRatings(data)
+    average <- averageRating(data)
     
-    average <- matrix(1, nrow = nrow(data), ncol = ncol(data)) * average
+    average <- matrix(1, 
+                      nrow = nrow(data), 
+                      ncol = ncol(data)) * average
     
-    new("algAverageClass", alg = "globalAverage", data = data, average = average)
+    new("algAverageClass", 
+        alg = "globalAverage", 
+        data = data, 
+        average = average)
     
 }
 
 #Algorithm that generates predictions based on the items average only.
 itemAverage <- function(data) {
   
-    average <- colSums(data@data) / colRatings(data)
+  
+  
+    average <- colAverages(data)
 
     names(average) <- NULL
     
@@ -22,16 +29,21 @@ itemAverage <- function(data) {
         average[which(is.nan(average))] <- sum(data@data) / numRatings(data)
     }
     
-    average <- matrix(rep(average, nrow(data)), nrow = nrow(data), byrow = TRUE)
+    average <- matrix(rep(average, nrow(data)), 
+                      nrow = nrow(data), 
+                      byrow = TRUE)
     
-    new("algAverageClass", alg = "itemlAverage", data = data, average = average)
+    new("algAverageClass", 
+        alg = "itemlAverage", 
+        data = data, 
+        average = average)
     
 }
 
 #Algorithm that generates predictions based on the user average only.
 userAverage <- function(data) {
     
-    average <- rowSums(data@data) / rowRatings(data)
+    average <- rowAverages(data)
     
     names(average) <- NULL
     
@@ -39,9 +51,14 @@ userAverage <- function(data) {
         average[which(is.nan(average))] <- sum(data@data) / numRatings(data)
     }
     
-    average <- matrix(rep(average, ncol(data)), nrow = nrow(data), byrow = F)
+    average <- matrix(rep(average, ncol(data)), 
+                      nrow = nrow(data), 
+                      byrow = F)
     
-    new("algAverageClass", alg = "userAverage", data = data, average = average)
+    new("algAverageClass", 
+        alg = "userAverage", 
+        data = data, 
+        average = average)
     
 }
 

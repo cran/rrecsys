@@ -1,33 +1,34 @@
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{3. Non-personalized recommendations}
+%\VignetteIndexEntry{Non-personalized recommendations}
 -->
 
-```{r global_options, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(rrecsys)
-data("mlLatest100k")
-ML <- defineData(mlLatest100k, minimum = .5, maximum = 5, halfStar = TRUE)
-smallML <- ML[rowRatings(ML)>=60, colRatings(ML)>=50]
-```
+## Non-personalized Recommendation in rrecsys
 
-## Non-personalized RS in rrecsys
+The included baseline recommendation methods are the global mean rating (Global Average), item’s mean rating (Item Average), user's mean rating (User Average), as well as an the Most Popular Item Recommendation method that recommends to all users the items that are most popular. 
 
-The included baseline predictors are the global mean rating (Global Average), item’s mean rating (Item Average), user's mean ratings (User Average) as well as an unpersonalized Most Popular method that determines item popularity based on the total number of (positive) ratings.
+<!--The "Most Mopular Item Recommendation" algorithm is the simplest implementation for item recommendations.
+Every item will be ordered based on the number of times that it has been rated positively. 
+A recommendation for a user will be the list of most popular items in the data set that the user has not chosen yet. -->
 
-Training a model with them:
-```{r}
-# The maximum value of the dataset might not be required since the default value coincides to the actual maximal value of the dataset.
-globAv <- rrecsys(smallML, alg = "globalaverage")
+To train a model for the rating prediction task we use the following commands:
+
+```{r, eval=FALSE}
+data("ml100k")
+d <- defineData(ml100k)
+e <- evalModel(d, folds = 2)
+
+globAv <- evalPred(e, alg = "globalaverage")
 globAv
+
 # Algorithm names might be matched on the registry partially.
-itemAv <- rrecsys(smallML, "itemAver")
+itemAv <- evalPred(e,  "itemAver")
 itemAv
-userAv <- rrecsys(smallML, "useraverage")
+userAv <- evalPred(e,  "useraverage")
 userAv
 ```
-Baseline recommenders do not require any argument.
+Please notice that the baseline recommenders do not require any other argument.
 
-The returned objec are of type _algAverageClass_. 
+The returned object are of type _algAverageClass_. 
 
-To get more details about the slots read the reference [manual](https://cran.r-project.org/web/packages/rrecsys/rrecsys.pdf).
+To get more details about the slots read the reference [manual](https://CRAN.R-project.org/package=rrecsys). 

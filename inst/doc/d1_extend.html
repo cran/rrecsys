@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Extendind rrecsys (prototyping)</title>
+<title>Extending rrecsys (prototyping)</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -165,13 +165,13 @@ hr {
 <body>
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{11. Extendind rrecsys}
+%\VignetteIndexEntry{Extendind rrecsys}
 -->
 
-<h2>Extendind rrecsys (prototyping)</h2>
+<h2>Extending rrecsys (prototyping)</h2>
 
 <p>Download binaries from GitHub and load the <em>“rrecsys.RProject”</em> file in RStudio. Install <em>devtools</em> package in R (install.packages(&ldquo;devtools&rdquo;))
-Rename <em>“yourAlgorithm.R”</em> file in &ldquo;rrecsys-mastet\R\&rdquo; folder (if it isn&#39;t renamed it won&#39;t be build).</p>
+Rename <em>“yourAlgorithm.R”</em> file in &ldquo;rrecsys-master\R\&rdquo; folder (if it isn&#39;t renamed it won&#39;t be build).</p>
 
 <p>Extending rrecsys is a 5 step procedure. On, your renamed, “yourAlgorithm.R”  file:</p>
 
@@ -183,13 +183,13 @@ Define the output class (line 8) by: setting the name of the class, complete the
 Once you have setup the class create the new object correspondingly (line 51).</p></li>
 <li><p>Add the new entry to the registry by completing the field on line 56 to 60.</p></li>
 <li><p>Complete the prediction algorithm by adding predicted values on <em>model@data</em>.
-When you want to try out your implementation use devtools::load<em>all(&ldquo;.&rdquo;) or on RStudio’s toolbar menu Build&gt;Load All, so that you can start using rrecsy’s methods.
+When you want to try out your implementation use devtools::load<em>all(&ldquo;.&rdquo;) or on RStudio’s toolbar menu Build&gt;Load All, so that you can start using rrecsys’s methods.
 If you need to use another library that is not on base R, you may use the library(&ldquo;requiredpackage&rdquo;) on your code but it is better if you include properly the used method in the _NAMESPACE</em> file.</p></li>
 </ol>
 
 <p>Tip: Use as much as you can the browser() function to single step through the execution of your function. It will allow you to view the changed objects during the execution.</p>
 
-<p>Afteer step 5 your algorithm may be used with all the other methods available in rrecsys.</p>
+<p>After step 5 your algorithm may be used with all the other methods available in rrecsys.</p>
 
 </body>
 

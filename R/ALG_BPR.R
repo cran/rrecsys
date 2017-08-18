@@ -6,7 +6,14 @@
 
 # Reference: S. Rendle, C. Freudenthaler, Z. Gantner, and L. Schmidt-Thieme. BPR: Bayesian Personalized Ranking from Implicit Feedback.
 
-BPR <- function(data, k = 10, lambda = 0.05, regU = 0.0025, regI = 0.0025, regJ = 0.0025, updateJ = TRUE) {
+BPR <- function(data, 
+                k = 10, 
+                randomInit = FALSE, 
+                lambda = 0.05, 
+                regU = 0.0025, 
+                regI = 0.0025, 
+                regJ = 0.0025, 
+                updateJ = TRUE) {
     
     x <- data@data
     
@@ -20,8 +27,13 @@ BPR <- function(data, k = 10, lambda = 0.05, regU = 0.0025, regI = 0.0025, regJ 
         stop("Invalid number of features! \nLess features than the actual number of items or users! Please correct k!")
     
     # initilize the user and item features
-    U <- matrix(0.1, nrow = row_x, ncol = k)
-    V <- matrix(0.1, nrow = col_x, ncol = k)
+    if(randomInit){
+      U <- matrix(rnorm(row_x * k, 0, 0.1), nrow = row_x, ncol = k)
+      V <- matrix(rnorm(row_x * k, 0, 0.1), nrow = row_x, ncol = k)
+    }else{
+      U <- matrix(0.1, nrow = row_x, ncol = k)
+      V <- matrix(0.1, nrow = col_x, ncol = k)
+    }
     
     #list of indices pointing to ratings on each user 
     userIDX <- lapply(1:row_x, function(i) which(x[i, ] >= data@minimum))
@@ -35,33 +47,37 @@ BPR <- function(data, k = 10, lambda = 0.05, regU = 0.0025, regI = 0.0025, regJ 
     
     while (!isConverged(x, p)) {
         
-        for (s in 1:100 * row_x) {
+        for (s in 1:(100 * row_x)) {
             # extract a random user one random rated item and one random unrated item for that user.
             while (TRUE) {
                 u <- sample(1:row_x, 1)
-                if (length(userIDX[[u]]) == 0) 
+                # in case there is no rating or all the items for the user are rated
+                # FIX ME: we are suposing that rating matrix fed to this method has at least one rated items or one not rated items.
+                if (length(userIDX[[u]]) == 0 | length(userNOIDX[[u]]) == 0) 
                   next
                 i <- userIDX[[u]][sample(1:length(userIDX[[u]]), 1)]
                 j <- userNOIDX[[u]][sample(1:length(userNOIDX[[u]]), 1)]
                 break
             }
             
+          
             # predict xui and xuj
             xui <- sum(U[u, ] * V[i, ])
             xuj <- sum(U[u, ] * V[j, ])
             
             xuij <- xui - xuj
             
-            sigma <- 1/(1 + exp(-xuij))
+            sigma0 <- 1/(1 + exp(xuij))
             
-            loss <- -log(1/(1 + exp(xuij)))
+            loss <- -log(1/(1 + exp(-xuij)))
             
-            U[u, ] <- U[u, ] + lambda * (sigma * (V[i, ] - V[j, ]) - regU * U[u, ])
+            U[u, ] <- U[u, ] + lambda * (sigma0 * (V[i, ] - V[j, ]) - regU * U[u, ])
             
-            V[i, ] <- V[i, ] + lambda * (sigma * U[u, ] - regI * V[i, ])
+            V[i, ] <- V[i, ] + lambda * (sigma0 * U[u, ] - regI * V[i, ])
             
             if (updateJ) {
-                V[j, ] <- V[j, ] + lambda * (sigma * (-U[u, ]) - regJ * V[j, ])
+              
+                V[j, ] <- V[j, ] + lambda * (sigma0 * (-U[u, ]) - regJ * V[j, ])
             }
             
             
@@ -71,13 +87,30 @@ BPR <- function(data, k = 10, lambda = 0.05, regU = 0.0025, regI = 0.0025, regJ 
         
     }  #convergence
     
-    p_BPR <- list(k = k, lambda = lambda, regU = regU, regI = regI, regJ = regJ, updateJ = updateJ)
+    p_BPR <- list(k = k, 
+                  randomInit = randomInit, 
+                  lambda = lambda, 
+                  regU = regU, 
+                  regI = regI, 
+                  regJ = regJ, 
+                  updateJ = updateJ)
     
-    new("BPRclass", alg = "BPR", data = data, factors = list(U = U, V = V), parameters = p_BPR)
+    new("BPRclass", 
+        alg = "BPR", 
+        data = data, 
+        factors = list(U = U, V = V), 
+        parameters = p_BPR)
 }
 
 
-p_BPR <- list(k = 10, lambda = 0.05, regU = 0.0025, regI = 0.0025, regJ = 0.0025, updateJ = TRUE)
+p_BPR <- list(k = 10, 
+              lambda = 0.05, 
+              regU = 0.0025, 
+              regI = 0.0025, 
+              regJ = 0.0025, 
+              updateJ = TRUE)
+
+
 rrecsysRegistry$set_entry(alg = "BPR", 
                           fun = BPR, 
                           description = "Bayesian Personalized Ranking.", 

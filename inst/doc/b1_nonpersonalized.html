@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
-<title>Non-personalized RS in rrecsys</title>
+<title>Non-personalized Recommendation in rrecsys</title>
 
 <script type="text/javascript">
 window.onload = function() {
@@ -203,43 +203,38 @@ hr {
 <body>
 <!--
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{3. Non-personalized recommendations}
+%\VignetteIndexEntry{Non-personalized recommendations}
 -->
 
-<h2>Non-personalized RS in rrecsys</h2>
+<h2>Non-personalized Recommendation in rrecsys</h2>
 
-<p>The included baseline predictors are the global mean rating (Global Average), item’s mean rating (Item Average), user&#39;s mean ratings (User Average) as well as an unpersonalized Most Popular method that determines item popularity based on the total number of (positive) ratings.</p>
+<p>The included baseline recommendation methods are the global mean rating (Global Average), item’s mean rating (Item Average), user&#39;s mean rating (User Average), as well as an the Most Popular Item Recommendation method that recommends to all users the items that are most popular. </p>
 
-<p>Training a model with them:</p>
+<!--The "Most Mopular Item Recommendation" algorithm is the simplest implementation for item recommendations.
+Every item will be ordered based on the number of times that it has been rated positively. 
+A recommendation for a user will be the list of most popular items in the data set that the user has not chosen yet. -->
 
-<pre><code class="r"># The maximum value of the dataset might not be required since the default value coincides to the actual maximal value of the dataset.
-globAv &lt;- rrecsys(smallML, alg = &quot;globalaverage&quot;)
+<p>To train a model for the rating prediction task we use the following commands:</p>
+
+<pre><code class="r">data(&quot;ml100k&quot;)
+d &lt;- defineData(ml100k)
+e &lt;- evalModel(d, folds = 2)
+
+globAv &lt;- evalPred(e, alg = &quot;globalaverage&quot;)
 globAv
-</code></pre>
 
-<pre><code>## The model was trained on the dataset using  globalAverage algorithm.
-</code></pre>
-
-<pre><code class="r"># Algorithm names might be matched on the registry partially.
-itemAv &lt;- rrecsys(smallML, &quot;itemAver&quot;)
+# Algorithm names might be matched on the registry partially.
+itemAv &lt;- evalPred(e,  &quot;itemAver&quot;)
 itemAv
-</code></pre>
-
-<pre><code>## The model was trained on the dataset using  itemlAverage algorithm.
-</code></pre>
-
-<pre><code class="r">userAv &lt;- rrecsys(smallML, &quot;useraverage&quot;)
+userAv &lt;- evalPred(e,  &quot;useraverage&quot;)
 userAv
 </code></pre>
 
-<pre><code>## The model was trained on the dataset using  userAverage algorithm.
-</code></pre>
+<p>Please notice that the baseline recommenders do not require any other argument.</p>
 
-<p>Baseline recommenders do not require any argument.</p>
+<p>The returned object are of type <em>algAverageClass</em>. </p>
 
-<p>The returned objec are of type <em>algAverageClass</em>. </p>
-
-<p>To get more details about the slots read the reference <a href="https://cran.r-project.org/web/packages/rrecsys/rrecsys.pdf">manual</a>.</p>
+<p>To get more details about the slots read the reference <a href="https://CRAN.R-project.org/package=rrecsys">manual</a>. </p>
 
 </body>
 
