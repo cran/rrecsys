@@ -227,13 +227,13 @@ rrecsys(data, alg, ...)
 <pre><code class="r">rrecsysRegistry
 </code></pre>
 
-<pre><code>## Registry defined for rrecsys with 10 entries as follows:
+<pre><code>## Registry defined for rrecsys with 11 entries as follows:
 ## 
 ## Algorithm: BPR
 ## Reference: S. Rendle, C. Freudenthaler, Z. Gantner, and L. Schmidt-Thieme. BPR: Bayesian Personalized Ranking from Implicit Feedback.
 ## Parameter and default values:
-##    k lambda   regU   regI   regJ updateJ
-## 1 10   0.05 0.0025 0.0025 0.0025    TRUE
+##    k learningRate   regU   regI   regJ updateJ
+## 1 10         0.05 0.0025 0.0025 0.0025    TRUE
 ## 
 ## Algorithm: IBKNN
 ## Reference: B. Sarwar, G. Karypis, J. Konstan, and J. Riedl. Item-based collaborative filtering recommendation algorithms.
@@ -277,8 +277,14 @@ rrecsys(data, alg, ...)
 ## Algorithm: wALS
 ## Reference: R. Pan, Y. Zhou, B. Cao, N.  Liu, R. Lukose, M. Scholz, and Q. Yang.  One-Class Collaborative Filtering.
 ## Parameter and default values:
-##    k lambda scheme delta
-## 1 10   0.01  None!  0.04
+##    k regCoef scheme delta
+## 1 10    0.01  None!  0.04
+## 
+## Algorithm: yourAlgorithm
+## Reference: Reference if there is some
+## Parameter and default values:
+##   firstP secondParam
+## 1      1   if string
 </code></pre>
 
 </body>
