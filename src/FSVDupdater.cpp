@@ -26,7 +26,7 @@ List FSVDupdaterBiases(NumericMatrix ratingMat,
     baseline_users[i] = R::runif(0,1);
     
     for(int j = 0; j < nrfeat ; j++){
-      U(i,j) = R::runif(0,1) * sqrt(0.5/nrfeat);
+      U(i,j) = R::runif(0,1) * sqrt(0.5f/nrfeat);
     }
   }
   
@@ -36,7 +36,7 @@ List FSVDupdaterBiases(NumericMatrix ratingMat,
     baseline_items[i] = R::runif(0,1);
     
     for(int j = 0; j < nrfeat ; j++){
-      V(i,j) = R::runif(0,1) * sqrt(0.5/nrfeat);
+      V(i,j) = R::runif(0,1) * sqrt(0.5f/nrfeat);
     }
   }
   

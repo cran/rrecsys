@@ -37,6 +37,7 @@ NumericVector predictIB(
         count++;
         denom += fabs(simil(i,j));
         numer += data(u,j) * simil(i,j);
+        //numer += data(u,j) * simil(i,j);
         
       }
 
