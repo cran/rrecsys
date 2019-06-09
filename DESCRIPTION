@@ -1,7 +1,7 @@
 Package: rrecsys
 Type: Package
 Title: Environment for Evaluating Recommender Systems
-Version: 0.9.7.3
+Version: 0.9.7.3.1
 Date: 2018-02-10
 Authors@R: c(person("Ludovik","Çoba", role=c("aut","cre","cph"), email="Ludovik.Coba@inf.unibz.it"), 
              person("Markus","Zanker", role="ctb",email="Markuz.Zanker@unibz.it"),
@@ -17,9 +17,9 @@ Encoding: UTF-8
 Repository: CRAN
 LinkingTo: Rcpp
 NeedsCompilation: yes
-Packaged: 2018-02-10 14:28:27 UTC; ludo
+Packaged: 2019-06-09 18:34:13 UTC; hornik
 Author: Ludovik Çoba [aut, cre, cph],
   Markus Zanker [ctb],
   Panagiotis Symeonidis [ctb]
 Maintainer: Ludovik Çoba <Ludovik.Coba@inf.unibz.it>
-Date/Publication: 2018-02-10 14:44:54 UTC
+Date/Publication: 2019-06-09 18:45:49 UTC
